@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<header>
+<title>Canvas Job</title>
+</header>
+<body>
+<canvas id="myCanvas" width="1200" height="800"></canvas>
+<script>
+// Get the canvas handle. Fix some constants
+const c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+ctx.font = "18px liberation_sans"
+
+// Make a circle
+function drawCircle(baseX, baseY, radius, colorString){
+	ctx.beginPath();
+	ctx.arc(baseX, baseY, radius, 0, 2*Math.PI);
+	ctx.fillStyle = (colorString == undefined) ? "rgba(0, 0, 200, 0.5)" : colorString;
+	ctx.fill();
+	console.log("colorString: " + colorString);
+	return;
+};
+
+function drawEjecta(baseX, baseY, radius, colorString){
+	var SECTIONS = 16;
+	colorString = (colorString == undefined) ? "rgba(100, 100, 100, 0.5)": colorString;
+	// draw N ejecta
+	for(var angle=0.0; angle < 2*Math.PI; angle += Math.PI/SECTIONS)
+		drawCircle(baseX+radius*Math.cos(angle), baseY+radius*Math.sin(angle), 4, colorString);
+}
+
+drawCircle(600, 300.4, 10);
+
+var [baseX, baseY] = [600, 300];
+
+for(var i=10; i<250; i+=10){
+	colorString = "rgba(100, 0, 100, 0.5)";
+	if(i > 80){
+		baseX -= 7;
+		colorString = "rgba(100, 100, 100, 0.5)";
+	}
+	drawEjecta(baseX, baseY, i*1.5, colorString);
+}
+
+/*
+var [yellowFill, greyFill, redFill] = ["rgba(255, 255, 0, 0.5)", "rgba(192, 192, 192, 0.6)", "rgba(255, 100, 0, 0.5)"]
+
+function drawGrid(baseX, baseY){
+	for(var x=0; x<7; x++)
+		for(var y=0; y<7; y++){
+			ctx.beginPath();
+			ctx.rect(baseX+50*x, baseY+50*y, 50, 50);
+			ctx.fillStyle = x>1 && x<5 && y>1 && y<5 ? greyFill : yellowFill;
+			ctx.fill();
+			ctx.stroke();
+			ctx.fillStyle = "rgba(0, 0, 0, 1)";
+			ctx.fillText(42, baseX+15+50*x, baseY+32+50*y);
+		}
+}
+
+drawGrid(20, 20);
+drawGrid(425, 20);
+drawGrid(20, 425);
+drawGrid(425, 425);
+*/
+</script>
+</body>
